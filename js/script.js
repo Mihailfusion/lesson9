@@ -45,6 +45,7 @@ window.addEventListener("DOMContentLoaded", function () {
       'seconds': seconds
     };
   }
+
   function setClock(id, endtime) {
     let timer = document.getElementById(id),
       hours = timer.querySelector('.hours'),
@@ -52,38 +53,52 @@ window.addEventListener("DOMContentLoaded", function () {
       seconds = timer.querySelector('.seconds'),
       timeInterval = setInterval(updateClock, 1000);
 
-      function updateClock() {
-        let t = getTimeRemaning(endtime);
-        if (t.hours < 10) {
-          hours.textContent = '0' + t.hours;
-        }else {hours.textContent = t.hours;}
-        if (t.minutes < 10) {
-          minutes.textContent = '0' + t.minutes;
-        } else { minutes.textContent = t.minutes; }
-        if (t.seconds < 10) {
-          seconds.textContent = '0' + t.seconds;
-        } else { seconds.textContent = t.seconds; }
-        if (t.total < 0) {
-          clearInterval(timeInterval);    
-          hours.textContent = '00';
-          minutes.textContent = '00';
-          seconds.textContent = '00';
-        }
+    function updateClock() {
+      let t = getTimeRemaning(endtime);
+      if (t.hours < 10) {
+        hours.textContent = '0' + t.hours;
+      } else {
+        hours.textContent = t.hours;
       }
-    
+      if (t.minutes < 10) {
+        minutes.textContent = '0' + t.minutes;
+      } else {
+        minutes.textContent = t.minutes;
+      }
+      if (t.seconds < 10) {
+        seconds.textContent = '0' + t.seconds;
+      } else {
+        seconds.textContent = t.seconds;
+      }
+      if (t.total < 0) {
+        clearInterval(timeInterval);
+        hours.textContent = '00';
+        minutes.textContent = '00';
+        seconds.textContent = '00';
+      }
+    }
+
   }
   setClock('timer', deadline);
   //modal 
 
   let more = document.querySelector('.more'),
-  overlay = document.querySelector('.overlay'),
-  close = document.querySelector('.popup-close');
+    click = document.querySelector('#about'),
+    overlay = document.querySelector('.overlay'),
+    close = document.querySelector('.popup-close');
 
-  more.addEventListener('click', function () {
+  function showModal(a) {
     overlay.style.display = 'block';
-    this.classList.add('more-splash');
+    a.classList.add('more-splash');
     document.body.style.overflow = 'hidden';
+  }
+
+  click.addEventListener('click', function (event) {
+    if (event.target && event.target.matches('.description-btn') || event.target == more) {
+      showModal(event.target);
+    }
   });
+
   close.addEventListener('click', function () {
     overlay.style.display = 'none';
     more.classList.remove('more-splash');
